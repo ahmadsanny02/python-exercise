@@ -1,7 +1,7 @@
 # Algoritma dan Pseudocode - Program Validasi Tanggal Kalender
 
 ## 1. Deskripsi Program
-Program ini memvalidasi keabsahan kombinasi tanggal, bulan, dan tahun. Program menentukan batas hari maksimum untuk bulan bersangkutan (31 untuk bulan ganjil/panjang, 30 untuk bulan pendek, dan 28/29 untuk Februari tergantung status tahun kabisat), lalu mengecek apakah tanggal berada dalam batas yang valid.
+Program ini meminta pengguna memasukkan tanggal, bulan, dan tahun secara interaktif, kemudian memvalidasi keabsahan kombinasi tanggal tersebut. Program menentukan batas hari maksimum untuk bulan yang diinputkan (31 hari untuk bulan panjang, 30 hari untuk bulan pendek, serta 28 atau 29 hari untuk bulan Februari tergantung status tahun kabisat). Setelah batas hari ditentukan, program mengecek apakah nilai tanggal dan bulan berada di dalam rentang yang valid dan menampilkan status validitasnya.
 
 - **File Program**: [`ValidasiTanggal.py`](./ValidasiTanggal.py)
 - **Direktori**: `06-validasi-tanggal`
@@ -10,25 +10,35 @@ Program ini memvalidasi keabsahan kombinasi tanggal, bulan, dan tahun. Program m
 
 ## 2. Analisis Masalah
 - **Input**:
-  - Menggunakan nilai awal/parameter yang didefinisikan dalam kode.
+  - `tanggal` (integer): Nilai hari/tanggal yang dimasukkan oleh pengguna via input konsol.
+  - `bulan` (integer): Nilai bulan (1 - 12) yang dimasukkan oleh pengguna via input konsol.
+  - `tahun` (integer): Nilai tahun yang dimasukkan oleh pengguna via input konsol.
 - **Proses**:
-  - Validasi kondisi perulangan dan percabangan logika sesuai spesifikasi program.
-  - Perhitungan matematika / manipulasi data / akumulasi nilai.
+  - Inisialisasi daftar bulan panjang `[1, 3, 5, 7, 8, 10, 12]`, bulan pendek `[2, 4, 6, 9, 11]`, `jumlah_hari = 0`, dan flag awal `validitas = True`.
+  - Penentuan batas hari (`jumlah_hari`):
+    - Jika `bulan in bulan_panjang`: `jumlah_hari = 31`.
+    - Jika `bulan in bulan_pendek` dan `bulan != 2`: `jumlah_hari = 30`.
+    - Jika `bulan == 2`: Cek aturan tahun kabisat `(tahun % 4 == 0 and tahun % 100 != 0) or (tahun % 400 == 0)`. Jika kabisat maka `jumlah_hari = 29`, jika bukan kabisat maka `jumlah_hari = 28`.
+    - Jika bulan di luar rentang valid: `validitas = False`.
+  - Pengecekan keabsahan rentang:
+    - Memeriksa apakah `tanggal >= 1 and tanggal <= jumlah_hari` dan `bulan >= 1 and bulan <= 12`.
+    - Jika memenuhi maka `validitas = True`, jika tidak maka `validitas = False`.
 - **Output**:
-  - Menampilkan hasil pengolahan, status operasi, rincian iterasi, atau representasi visual.
+  - Informasi `jumlah_hari` per bulan jika bulan valid.
+  - Teks status apakah tanggal valid atau bukan tanggal valid (`Tanggal dd/mm/yyyy adalah tanggal valid` atau `bukan tanggal valid`).
 
 ---
 
 ## 3. Kamus Data / Deklarasi Variabel
 | Nama Variabel | Tipe Data | Keterangan |
 | :--- | :--- | :--- |
-| `tanggal` | integer | Nilai tanggal yang divalidasi |
-| `bulan` | integer | Nilai bulan yang divalidasi (1 - 12) |
-| `tahun` | integer | Nilai tahun yang divalidasi |
-| `bulan_panjang` | array of integer | Daftar bulan dengan 31 hari [1, 3, 5, 7, 8, 10, 12] |
-| `bulan_pendek` | array of integer | Daftar bulan dengan 30 hari [2, 4, 6, 9, 11] |
-| `jumlah_hari` | integer | Maksimum hari pada bulan tertentu |
-| `validitas` | boolean | Status keabsahan tanggal (True jika valid, False jika tidak valid) |
+| `tanggal` | integer | Nilai tanggal/hari yang diinputkan pengguna |
+| `bulan` | integer | Nilai bulan (1 - 12) yang diinputkan pengguna |
+| `tahun` | integer | Nilai tahun yang diinputkan pengguna |
+| `bulan_panjang` | array of integer / list | Daftar bulan yang memiliki 31 hari `[1, 3, 5, 7, 8, 10, 12]` |
+| `bulan_pendek` | array of integer / list | Daftar bulan yang memiliki 30 hari atau Februari `[2, 4, 6, 9, 11]` |
+| `jumlah_hari` | integer | Batas jumlah hari maksimum pada bulan bersangkutan |
+| `validitas` | boolean | Status keabsahan tanggal (`True` jika valid, `False` jika tidak valid) |
 
 ---
 
@@ -43,9 +53,13 @@ DEKLARASI:
     validitas : boolean
 
 DESKRIPSI:
-    bulan <- 2
-    tahun <- 2000
-    tanggal <- 30
+    OUTPUT "Masukkan tanggal: "
+    INPUT tanggal
+    OUTPUT "Masukkan bulan: "
+    INPUT bulan
+    OUTPUT "Masukkan tahun: "
+    INPUT tahun
+
     bulan_panjang <- [1, 3, 5, 7, 8, 10, 12]
     bulan_pendek <- [2, 4, 6, 9, 11]
     jumlah_hari <- 0
@@ -97,12 +111,22 @@ Berikut adalah diagram alir (*flowchart*) dari algoritma di atas:
 ---
 
 ## 6. Penjelasan Alur Eksekusi (Traceability)
-1. Program dimulai (Start) dan menginisialisasi parameter tanggal (tanggal=30, bulan=2, tahun=2000) beserta daftar kategori bulan.
-2. Pengecekan penentuan batas `jumlah_hari`:
-3. - Jika `bulan in bulan_panjang`: `jumlah_hari = 31`.
-4. - Jika `bulan in bulan_pendek` dan `bulan != 2`: `jumlah_hari = 30`.
-5. - Jika `bulan == 2`: cek aturan tahun kabisat. Jika kabisat `jumlah_hari = 29`, jika bukan `jumlah_hari = 28`.
-6. - Jika di luar bulan 1-12: `validitas = False`.
-7. Validasi rentang nilai: periksa apakah `1 <= tanggal <= jumlah_hari` dan `1 <= bulan <= 12`. Jika ya `validitas = True`, jika tidak `validitas = False`.
-8. Pemeriksaan hasil: jika `validitas` bernilai True, cetak tanggal valid; jika False cetak bukan tanggal valid.
-9. Program selesai (End).
+1. **Mulai (Start)**: Program dimulai.
+2. **Input Pengguna**: Pengguna memasukkan nilai `tanggal`, `bulan`, dan `tahun`.
+3. **Inisialisasi Variabel**: Mengeset daftar `bulan_panjang`, `bulan_pendek`, nilai `jumlah_hari = 0`, serta status default `validitas = True`.
+4. **Penentuan Jumlah Hari Berdasarkan Bulan**:
+   - Jika `bulan` termasuk dalam `bulan_panjang`, set `jumlah_hari = 31` dan tampilkan nilai tersebut.
+   - Jika `bulan` termasuk dalam `bulan_pendek` dan `bulan != 2`, set `jumlah_hari = 30` dan tampilkan.
+   - Jika `bulan == 2`, lakukan pengecekan tahun kabisat:
+     - Jika `(tahun % 4 == 0 and tahun % 100 != 0) or (tahun % 400 == 0)` bernilai Benar, set `jumlah_hari = 29`.
+     - Jika bernilai Salah, set `jumlah_hari = 28`.
+     - Tampilkan nilai `jumlah_hari`.
+   - Jika bulan tidak memenuhi kriteria di atas (misal `< 1` atau `> 12`), set `validitas = False`.
+5. **Evaluasi Validitas Tanggal**:
+   - Mengecek ekspresi: `(tanggal >= 1 and tanggal <= jumlah_hari) and (bulan >= 1 and bulan <= 12)`.
+   - Jika Benar, set `validitas = True`.
+   - Jika Salah, set `validitas = False`.
+6. **Penampilan Hasil**:
+   - Jika `validitas == True`, cetak `"Tanggal dd/mm/yyyy adalah tanggal valid"`.
+   - Jika `validitas == False`, cetak `"Tanggal dd/mm/yyyy adalah bukan tanggal valid"`.
+7. **Selesai (End)**: Eksekusi selesai.

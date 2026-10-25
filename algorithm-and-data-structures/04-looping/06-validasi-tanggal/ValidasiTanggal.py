@@ -1,10 +1,10 @@
-bulan = 2
+tanggal = int(input("Masukkan tanggal: "))
+bulan = int(input("Masukkan bulan: "))
+tahun = int(input("Masukkan tahun: "))
 bulan_panjang = [1, 3, 5, 7, 8, 10, 12]
 bulan_pendek = [2, 4, 6, 9, 11]
 jumlah_hari = 0
 validitas = True
-tahun = 2000
-tanggal = 30
 
 if bulan in bulan_panjang:
     jumlah_hari = 31
